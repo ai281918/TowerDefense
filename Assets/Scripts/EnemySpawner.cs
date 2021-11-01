@@ -20,6 +20,7 @@ public class EnemySpawner : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        Debug.Log(nodes.Count);
         SpawnEnemy();
     }
 
@@ -37,7 +38,7 @@ public class EnemySpawner : MonoBehaviour
                 }
             }
         }
-        if(Vector2.Distance(pos, nodes[id]) <= dis){
+        if(nodes.Count != 0 && Vector2.Distance(pos, nodes[id]) <= dis){
             id++;
         }
         nodes.Insert(id, pos);

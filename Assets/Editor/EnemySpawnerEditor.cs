@@ -15,6 +15,9 @@ public class EnemySpawnerEditor : Editor
     }
 
     private void OnSceneGUI() {
+        // Disable left click selection
+        HandleUtility.AddDefaultControl(GUIUtility.GetControlID(FocusType.Passive));
+
         enemySpawner = (EnemySpawner)target;
         cam = SceneView.lastActiveSceneView.camera;
 
@@ -48,5 +51,7 @@ public class EnemySpawnerEditor : Editor
         if(Event.current.type == EventType.KeyDown && Event.current.keyCode == KeyCode.D){
             enemySpawner.DeleteNode(mousePos);
         }
+
+        EditorUtility.SetDirty(enemySpawner);
     }
 }
