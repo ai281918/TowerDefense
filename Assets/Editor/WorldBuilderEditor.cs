@@ -8,15 +8,92 @@ public class WorldBuilderEditor : Editor
 {
     bool mouseDown = false;
     bool leftShiftDown = false;
+    WorldBuilder worldBuilder;
+    SpriteManager spriteManager;
+    Camera cam;
+
+    public override void OnInspectorGUI()
+	{
+        worldBuilder = (WorldBuilder)target;
+        spriteManager = SpriteManager.instance;
+
+		// DrawDefaultInspector();
+        worldBuilder.Initialize();
+
+        // Map prefab
+        worldBuilder.prefab = EditorGUILayout.ObjectField("Map Prefab", worldBuilder.prefab, typeof(GameObject), true) as GameObject;
+
+        // Map size
+        worldBuilder.mapSize_t = EditorGUILayout.Vector2IntField("Map Size", worldBuilder.mapSize_t);
+        if(GUILayout.Button("Apply")){
+            worldBuilder.mapSize = worldBuilder.mapSize_t;
+        }
+
+        GUILayout.Label("");
+
+        // Brush
+        worldBuilder.brushTool = (BrushTool)GUILayout.Toolbar((int)worldBuilder.brushTool, new[]{"Sprite Brush", "Height Brush"});
+
+        switch(worldBuilder.brushTool){
+            case BrushTool.sprite:
+                // Sprite
+                GUILayout.Label("Brush Type");
+                worldBuilder.brushType = (BrushType)EditorGUILayout.EnumPopup(worldBuilder.brushType);
+
+                switch(worldBuilder.brushType){
+                    case BrushType.point:
+                        break;
+                    case BrushType.range:
+                        // Brush size
+                        GUILayout.Label("Brush Size");
+                        worldBuilder.spriteBrushSize = EditorGUILayout.Slider(worldBuilder.spriteBrushSize, 0f, 10f);
+                        break;
+                }
+
+                // Select sprite
+                GUILayout.Label("Select Sprite");
+                spriteManager.Initialize();
+
+                for(int n=0;n<spriteManager.spriteName.Length;++n){
+                    worldBuilder.spriteFoldout[n] = EditorGUILayout.BeginFoldoutHeaderGroup(worldBuilder.spriteFoldout[n], spriteManager.spriteName[n]);
+                    worldBuilder.spriteScrollPos[n] = GUILayout.BeginScrollView(worldBuilder.spriteScrollPos[n], true, false, GUILayout.Height(200));
+                    GUILayout.BeginHorizontal();
+                    
+                    for(int i=0;i<spriteManager.sprites[n].Length;++i){
+                        if(GUILayout.Button(spriteManager.sprites[n][i].texture, GUILayout.Width(100))){
+                            worldBuilder.spriteType = n;
+                            worldBuilder.spriteID = i;
+                        }
+                    }
+
+                    GUILayout.EndHorizontal();
+                    GUILayout.EndScrollView();
+                    EditorGUILayout.EndFoldoutHeaderGroup();
+                }
+                break;
+            case BrushTool.height:
+                // Height
+                GUILayout.Label("Brush Size");
+                worldBuilder.heightBrushSize = EditorGUILayout.Slider(worldBuilder.heightBrushSize, 0f, 10f);
+                GUILayout.Label("Strength");
+                worldBuilder.strength = EditorGUILayout.Slider(worldBuilder.strength, 0f, 1f);
+                break;
+        }
+
+        // Reset
+        if(GUILayout.Button("Reset")){
+            worldBuilder.Reset();
+            worldBuilder.mapSize = worldBuilder.mapSize_t;
+        }
+	}
 
     public void OnSceneGUI()
     {
+        worldBuilder = (WorldBuilder)target;
+        cam = SceneView.lastActiveSceneView.camera;
+        
         // Disable left click selection
         HandleUtility.AddDefaultControl(GUIUtility.GetControlID(FocusType.Passive));
-
-        WorldBuilder worldBuilder = (WorldBuilder)target;
- 
-        Camera cam = SceneView.lastActiveSceneView.camera;
  
         // Screen to world
         // Screen.height會比實際視窗高度多40px
@@ -66,89 +143,5 @@ public class WorldBuilderEditor : Editor
         }
  
         SceneView.RepaintAll();
-    }
-
-    public override void OnInspectorGUI()
-	{
-		// DrawDefaultInspector();
-		WorldBuilder worldBuilder = target as WorldBuilder;
-        SpriteManager spriteManager = SpriteManager.instance;
-
-        // Map prefab
-        worldBuilder.prefab = EditorGUILayout.ObjectField("Map Prefab", worldBuilder.prefab, typeof(GameObject), true) as GameObject;
-
-        // Map size
-        worldBuilder.mapSize_t = EditorGUILayout.Vector2IntField("Map Size", worldBuilder.mapSize_t);
-        if(GUILayout.Button("Apply")){
-            worldBuilder.mapSize = worldBuilder.mapSize_t;
-        }
-
-        GUILayout.Label("");
-
-        // Brush
-        worldBuilder.brushTool = (BrushTool)GUILayout.Toolbar((int)worldBuilder.brushTool, new[]{"Sprite Brush", "Height Brush"});
-
-        switch(worldBuilder.brushTool){
-            case BrushTool.sprite:
-                // Sprite
-                GUILayout.Label("Brush Type");
-                worldBuilder.brushType = (BrushType)EditorGUILayout.EnumPopup(worldBuilder.brushType);
-
-                switch(worldBuilder.brushType){
-                    case BrushType.point:
-                        break;
-                    case BrushType.range:
-                        // Brush size
-                        GUILayout.Label("Brush Size");
-                        worldBuilder.spriteBrushSize = EditorGUILayout.Slider(worldBuilder.spriteBrushSize, 0f, 10f);
-                        break;
-                }
-
-                // Select sprite
-                GUILayout.Label("Select Sprite");
-                spriteManager.SetSpriteArray();
-
-                for(int n=0;n<spriteManager.spriteName.Length;++n){
-                    worldBuilder.spriteFoldout[n] = EditorGUILayout.BeginFoldoutHeaderGroup(worldBuilder.spriteFoldout[n], spriteManager.spriteName[n]);
-                    worldBuilder.spriteScrollPos[n] = GUILayout.BeginScrollView(worldBuilder.spriteScrollPos[n], true, false, GUILayout.Height(200));
-                    GUILayout.BeginHorizontal();
-                    
-                    for(int i=0;i<spriteManager.sprites[n].Length;++i){
-                        if(GUILayout.Button(spriteManager.sprites[n][i].texture, GUILayout.Width(100))){
-                            worldBuilder.spriteType = n;
-                            worldBuilder.spriteID = i;
-                        }
-                    }
-
-                    GUILayout.EndHorizontal();
-                    GUILayout.EndScrollView();
-                    EditorGUILayout.EndFoldoutHeaderGroup();
-                }
-                break;
-            case BrushTool.height:
-                // Height
-                GUILayout.Label("Brush Size");
-                worldBuilder.heightBrushSize = EditorGUILayout.Slider(worldBuilder.heightBrushSize, 0f, 10f);
-                GUILayout.Label("Strength");
-                worldBuilder.strength = EditorGUILayout.Slider(worldBuilder.strength, 0f, 1f);
-                break;
-        }
-
-        // Reset
-        if(GUILayout.Button("Reset")){
-            ResetMap();
-        }
-	}
-
-    void ResetMap(){
-        WorldBuilder worldBuilder = target as WorldBuilder;
-
-        GameObject[] mapUnits = GameObject.FindGameObjectsWithTag("MapUnit");
-
-        for(int i=0;i<mapUnits.Length;++i){
-            DestroyImmediate(mapUnits[i]);
-        }
-
-        worldBuilder.mapSize = worldBuilder.mapSize_t;
     }
 }

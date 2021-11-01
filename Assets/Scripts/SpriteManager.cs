@@ -19,7 +19,7 @@ public class SpriteManager : MonoBehaviour
     }
 
     [HideInInspector]
-    public Sprite[][] sprites = new Sprite[10][];
+    public Sprite[][] sprites;
     public Sprite[] brick;
     public Sprite[] dirt;
     public Sprite[] grass;
@@ -44,6 +44,22 @@ public class SpriteManager : MonoBehaviour
         "Wood"
     };
 
+    public void Initialize(){
+        if(sprites == null || sprites.Length != spriteName.Length){
+            sprites = new Sprite[spriteName.Length][];
+            sprites[0] = brick;
+            sprites[1] = dirt;
+            sprites[2] = grass;
+            sprites[3] = lava;
+            sprites[4] = sand;
+            sprites[5] = snow;
+            sprites[6] = stair;
+            sprites[7] = stone;
+            sprites[8] = water;
+            sprites[9] = wood;
+        }
+    }
+
     private void Awake() {
         
     }
@@ -60,16 +76,4 @@ public class SpriteManager : MonoBehaviour
         
     }
 
-    public void SetSpriteArray(){
-        sprites[0] = brick;
-        sprites[1] = dirt;
-        sprites[2] = grass;
-        sprites[3] = lava;
-        sprites[4] = sand;
-        sprites[5] = snow;
-        sprites[6] = stair;
-        sprites[7] = stone;
-        sprites[8] = water;
-        sprites[9] = wood;
-    }
 }
