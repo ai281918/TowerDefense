@@ -20,6 +20,7 @@ public class WorldBuilder : MonoBehaviour
     public bool[] spriteFoldout;
 
     // Map size
+    [SerializeField]
     Vector2Int _mapSize;
     public Vector2Int mapSize{
         get{
@@ -45,11 +46,16 @@ public class WorldBuilder : MonoBehaviour
     public GameObject prefab;
     // Map
     GameObject[,] map;
+    public SpriteManager spriteManager;
 
     public void Initialize(){
-        if(spriteScrollPos == null || spriteScrollPos.Length != SpriteManager.instance.spriteName.Length){
-            spriteScrollPos = new Vector2[SpriteManager.instance.spriteName.Length];
-            spriteFoldout = new bool[SpriteManager.instance.spriteName.Length];
+        if(spriteManager.spritePacks.Length == 0){
+            spriteScrollPos = null;
+            spriteFoldout = null;
+        }
+        else if(spriteScrollPos == null || spriteScrollPos.Length != spriteManager.spritePacks.Length){
+            spriteScrollPos = new Vector2[spriteManager.spritePacks.Length];
+            spriteFoldout = new bool[spriteManager.spritePacks.Length];
         }
     }
 
@@ -77,7 +83,7 @@ public class WorldBuilder : MonoBehaviour
                         m[i, j] = Instantiate(prefab, new Vector3(i+0.5f, j*0.25f, j*0.25f), Quaternion.identity);
                         m[i, j].transform.SetParent(transform);
                     }
-                    m[i, j].GetComponent<MapUnit>().Initialize(new Vector2Int(i, j));
+                    m[i, j].GetComponent<TerrainUnit>().Initialize(new Vector2Int(i, j));
                 }
             }
         }
@@ -111,7 +117,7 @@ public class WorldBuilder : MonoBehaviour
 
     // Draw sprite of the nearest unit
     void DrawSpritePoint(Vector3 center){
-        Sprite newSprite = SpriteManager.instance.sprites[spriteType][spriteID];
+        Sprite newSprite = spriteManager.spritePacks[spriteType].sprites[spriteID];
 
         float minDis = 999f;
         Vector2Int minID = Vector2Int.zero;
@@ -127,12 +133,12 @@ public class WorldBuilder : MonoBehaviour
                 }
             }
         }
-        map[minID.x, minID.y].GetComponent<MapUnit>().sprite = newSprite;
+        map[minID.x, minID.y].GetComponent<TerrainUnit>().sprite = newSprite;
     }
 
     // Draw sprite of all units in range
     void DrawSpriteRange(Vector3 center){
-        Sprite newSprite = SpriteManager.instance.sprites[spriteType][spriteID];
+        Sprite newSprite = spriteManager.spritePacks[spriteType].sprites[spriteID];
 
         float radius = spriteBrushSize / 2f;
         Vector2Int ldID = new Vector2Int(Mathf.Max(0, Mathf.FloorToInt(center.x-radius)), Mathf.Max(0, Mathf.FloorToInt((center.y-radius)*2)*2));
@@ -141,7 +147,7 @@ public class WorldBuilder : MonoBehaviour
         for(int i=ldID.x;i<=ruID.x;++i){
             for(int j=ldID.y;j<=ruID.y;++j){
                 if(Vector2.Distance(center, map[i, j].transform.position) <= radius){
-                    map[i, j].GetComponent<MapUnit>().sprite = newSprite;
+                    map[i, j].GetComponent<TerrainUnit>().sprite = newSprite;
                 }
             }
         }
@@ -160,7 +166,7 @@ public class WorldBuilder : MonoBehaviour
         for(int i=ldID.x;i<=ruID.x;++i){
             for(int j=ldID.y;j<=ruID.y;++j){
                 if(Vector2.Distance(center, map[i, j].transform.position) <= radius){
-                    map[i, j].GetComponent<MapUnit>().height += strength * Time.deltaTime * 0.5f * dir;
+                    map[i, j].GetComponent<TerrainUnit>().height += strength * Time.deltaTime * 0.5f * dir;
                 }
             }
         }
@@ -173,15 +179,17 @@ public class WorldBuilder : MonoBehaviour
     }
 
     public void Reset(){
-        GameObject[] mapUnits = GameObject.FindGameObjectsWithTag("MapUnit");
+        GameObject[] terrainUnits = GameObject.FindGameObjectsWithTag("TerrainUnit");
         map = new GameObject[mapSize.x, mapSize.y];
+        Debug.Log(mapSize);
 
-        for(int i=0;i<mapUnits.Length;++i){
-            if(mapUnits[i].GetComponent<MapUnit>().id.x < mapSize.x && mapUnits[i].GetComponent<MapUnit>().id.y < mapSize.y){
-                map[mapUnits[i].GetComponent<MapUnit>().id.x, mapUnits[i].GetComponent<MapUnit>().id.y] = mapUnits[i];
+        for(int i=0;i<terrainUnits.Length;++i){
+            if(terrainUnits[i].GetComponent<TerrainUnit>().id.x < mapSize.x && terrainUnits[i].GetComponent<TerrainUnit>().id.y < mapSize.y){
+                map[terrainUnits[i].GetComponent<TerrainUnit>().id.x, terrainUnits[i].GetComponent<TerrainUnit>().id.y] = terrainUnits[i];
             }
             else{
-                DestroyImmediate(mapUnits[i]);
+                Debug.Log("?");
+                DestroyImmediate(terrainUnits[i]);
             }
         }
     }

@@ -93,8 +93,8 @@ GameObject:
   - component: {fileID: 1031464949587355976}
   - component: {fileID: 6345585319056868823}
   m_Layer: 0
-  m_Name: MapUnit
-  m_TagString: MapUnit
+  m_Name: TerrainUnit
+  m_TagString: TerrainUnit
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -126,4 +126,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5754ebe35e81d0b43859e8ead0d202ae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  initialPosition: {x: 0, y: 0, z: 0}
   spriteRenderer: {fileID: 4411136584908542749}
+  id: {x: 0, y: 0}

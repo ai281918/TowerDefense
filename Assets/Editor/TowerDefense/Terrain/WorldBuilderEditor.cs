@@ -15,7 +15,11 @@ public class WorldBuilderEditor : Editor
     public override void OnInspectorGUI()
 	{
         worldBuilder = (WorldBuilder)target;
-        spriteManager = SpriteManager.instance;
+        EditorGUILayout.Vector2Field("Map Size", worldBuilder.mapSize);
+        // Sprite manager
+        worldBuilder.spriteManager = EditorGUILayout.ObjectField("Sprite Manager", worldBuilder.spriteManager, typeof(SpriteManager), true) as SpriteManager;
+        if(worldBuilder.spriteManager == null) return;
+        spriteManager = worldBuilder.spriteManager;
 
 		// DrawDefaultInspector();
         worldBuilder.Initialize();
@@ -52,22 +56,26 @@ public class WorldBuilderEditor : Editor
 
                 // Select sprite
                 GUILayout.Label("Select Sprite");
-                spriteManager.Initialize();
 
-                for(int n=0;n<spriteManager.spriteName.Length;++n){
-                    worldBuilder.spriteFoldout[n] = EditorGUILayout.BeginFoldoutHeaderGroup(worldBuilder.spriteFoldout[n], spriteManager.spriteName[n]);
-                    worldBuilder.spriteScrollPos[n] = GUILayout.BeginScrollView(worldBuilder.spriteScrollPos[n], true, false, GUILayout.Height(200));
-                    GUILayout.BeginHorizontal();
-                    
-                    for(int i=0;i<spriteManager.sprites[n].Length;++i){
-                        if(GUILayout.Button(spriteManager.sprites[n][i].texture, GUILayout.Width(100))){
-                            worldBuilder.spriteType = n;
-                            worldBuilder.spriteID = i;
+                for(int n=0;n<spriteManager.spriteTypeNum;++n){
+                    worldBuilder.spriteFoldout[n] = EditorGUILayout.BeginFoldoutHeaderGroup(worldBuilder.spriteFoldout[n], spriteManager.spritePacks[n].name);
+                    if(worldBuilder.spriteFoldout[n]){
+                        worldBuilder.spriteScrollPos[n] = GUILayout.BeginScrollView(worldBuilder.spriteScrollPos[n], true, false, GUILayout.Height(200));
+                        GUILayout.BeginHorizontal();
+                        
+                        for(int i=0;i<spriteManager.spritePacks[n].length;++i){
+                            // if(spriteManager.spritePacks[n].sprites[i] == null){
+                            //     continue;
+                            // }
+                            if(GUILayout.Button(spriteManager.spritePacks[n].sprites[i].texture, GUILayout.Width(100))){
+                                worldBuilder.spriteType = n;
+                                worldBuilder.spriteID = i;
+                            }
                         }
-                    }
 
-                    GUILayout.EndHorizontal();
-                    GUILayout.EndScrollView();
+                        GUILayout.EndHorizontal();
+                        GUILayout.EndScrollView();
+                    }
                     EditorGUILayout.EndFoldoutHeaderGroup();
                 }
                 break;
@@ -84,6 +92,10 @@ public class WorldBuilderEditor : Editor
         if(GUILayout.Button("Reset")){
             worldBuilder.Reset();
             worldBuilder.mapSize = worldBuilder.mapSize_t;
+        }
+
+        if(GUI.changed && !Application.isPlaying){
+            EditorUtility.SetDirty(worldBuilder);
         }
 	}
 

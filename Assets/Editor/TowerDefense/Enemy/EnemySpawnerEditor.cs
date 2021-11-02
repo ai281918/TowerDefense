@@ -52,6 +52,8 @@ public class EnemySpawnerEditor : Editor
             enemySpawner.DeleteNode(mousePos);
         }
 
-        EditorUtility.SetDirty(enemySpawner);
+        if(GUI.changed && !Application.isPlaying){
+            EditorUtility.SetDirty(enemySpawner);
+        }
     }
 }

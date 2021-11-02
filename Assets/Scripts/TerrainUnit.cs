@@ -2,9 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MapUnit : MonoBehaviour
+public class TerrainUnit : MonoBehaviour
 {
     public Vector3 initialPosition;
+    [SerializeField]
     float _height = 0f;
     public SpriteRenderer spriteRenderer;
     public Vector2Int id;

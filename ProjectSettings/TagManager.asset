@@ -4,7 +4,8 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - MapUnit
+  - TerrainUnit
+  - Enemy
   layers:
   - Default
   - TransparentFX
