@@ -45,11 +45,13 @@ public class EnemySpawnerEditor : Editor
         // 在滑鼠位置新增一個節點，並且連接最近的線ㄎ
         if(Event.current.type == EventType.KeyDown && Event.current.keyCode == KeyCode.A){
             enemySpawner.AddNode(mousePos);
+            EditorUtility.SetDirty(enemySpawner);
         }
 
         // 刪除離滑鼠位置最近的節點
         if(Event.current.type == EventType.KeyDown && Event.current.keyCode == KeyCode.D){
             enemySpawner.DeleteNode(mousePos);
+            EditorUtility.SetDirty(enemySpawner);
         }
 
         if(GUI.changed && !Application.isPlaying){

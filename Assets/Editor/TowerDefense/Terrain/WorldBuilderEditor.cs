@@ -15,7 +15,6 @@ public class WorldBuilderEditor : Editor
     public override void OnInspectorGUI()
 	{
         worldBuilder = (WorldBuilder)target;
-        EditorGUILayout.Vector2Field("Map Size", worldBuilder.mapSize);
         // Sprite manager
         worldBuilder.spriteManager = EditorGUILayout.ObjectField("Sprite Manager", worldBuilder.spriteManager, typeof(SpriteManager), true) as SpriteManager;
         if(worldBuilder.spriteManager == null) return;
@@ -92,6 +91,11 @@ public class WorldBuilderEditor : Editor
         if(GUILayout.Button("Reset")){
             worldBuilder.Reset();
             worldBuilder.mapSize = worldBuilder.mapSize_t;
+        }
+
+        if(GUILayout.Button("Clear")){
+            worldBuilder.Clear();
+            worldBuilder.mapSize = Vector2Int.zero;
         }
 
         if(GUI.changed && !Application.isPlaying){

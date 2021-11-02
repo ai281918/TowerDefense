@@ -27,7 +27,7 @@ public class WorldBuilder : MonoBehaviour
             return _mapSize;
         }
         set{
-            value.y += value.y-1;
+            value.y += Mathf.Max(value.y-1, 0);
             UpdateMapSize(value);
             _mapSize = value;
         }
@@ -45,6 +45,7 @@ public class WorldBuilder : MonoBehaviour
     public float strength = 0.2f;
     public GameObject prefab;
     // Map
+    [SerializeField]
     GameObject[,] map;
     public SpriteManager spriteManager;
 
@@ -60,6 +61,10 @@ public class WorldBuilder : MonoBehaviour
     }
 
     public void UpdateMapSize(Vector2Int newSize){
+        if(newSize.x == 0 || newSize.y == 0){
+            Clear();
+            return;
+        }
         GameObject[,] m = new GameObject[newSize.x, newSize.y];
 
         // keep old area
@@ -181,7 +186,6 @@ public class WorldBuilder : MonoBehaviour
     public void Reset(){
         GameObject[] terrainUnits = GameObject.FindGameObjectsWithTag("TerrainUnit");
         map = new GameObject[mapSize.x, mapSize.y];
-        Debug.Log(mapSize);
 
         for(int i=0;i<terrainUnits.Length;++i){
             if(terrainUnits[i].GetComponent<TerrainUnit>().id.x < mapSize.x && terrainUnits[i].GetComponent<TerrainUnit>().id.y < mapSize.y){
@@ -191,6 +195,13 @@ public class WorldBuilder : MonoBehaviour
                 Debug.Log("?");
                 DestroyImmediate(terrainUnits[i]);
             }
+        }
+    }
+
+    public void Clear(){
+        GameObject[] terrainUnits = GameObject.FindGameObjectsWithTag("TerrainUnit");
+        for(int i=0;i<terrainUnits.Length;++i){
+            DestroyImmediate(terrainUnits[i]);
         }
     }
 }
