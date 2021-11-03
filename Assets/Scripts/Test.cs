@@ -5,6 +5,8 @@ using UnityEngine;
 public class Test : MonoBehaviour
 {
     public GameObject g1, g2;
+    public Transform p1, p2;
+    
     public WorldBuilder worldBuilder;
     GameObject[,] m;
     // Start is called before the first frame update
@@ -16,11 +18,11 @@ public class Test : MonoBehaviour
                 if(m[i, j] == null){
                     if(j%2==0){
                         m[i, j] = Instantiate(g1, new Vector3(i, j*0.25f, j*0.25f), Quaternion.identity);
-                        m[i, j].transform.SetParent(transform);
+                        m[i, j].transform.SetParent(p1);
                     }
                     else{
-                        m[i, j] = Instantiate(g1, new Vector3(i+0.5f, j*0.25f, j*0.25f), Quaternion.identity);
-                        m[i, j].transform.SetParent(transform);
+                        m[i, j] = Instantiate(g2, new Vector3(i+0.5f, j*0.25f, j*0.25f), Quaternion.identity);
+                        m[i, j].transform.SetParent(p2);
                     }
                     m[i, j].GetComponent<TerrainUnit>().Initialize(new Vector2Int(i, j), Vector2Int.zero);
                 }
