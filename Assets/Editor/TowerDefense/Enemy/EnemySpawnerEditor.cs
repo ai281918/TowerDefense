@@ -42,7 +42,7 @@ public class EnemySpawnerEditor : Editor
             }
         }
 
-        // 在滑鼠位置新增一個節點，並且連接最近的線ㄎ
+        // 在滑鼠位置新增一個節點，並且連接最近的線段
         if(Event.current.type == EventType.KeyDown && Event.current.keyCode == KeyCode.A){
             enemySpawner.AddNode(mousePos);
             EditorUtility.SetDirty(enemySpawner);
