@@ -5,7 +5,7 @@ using UnityEngine;
 [System.Serializable]
 public struct SpritePack{
     public string name;
-    public Sprite[] sprites;
+    public GameObject[] sprites;
     public int length{
         get{
             if(sprites == null){

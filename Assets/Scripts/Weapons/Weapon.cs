@@ -19,8 +19,12 @@ public abstract class Weapon : MonoBehaviour
 
     float timeCount = 0f;
 
+    protected void Awake() {
+        
+    }
+
     // Start is called before the first frame update
-    void Start()
+    protected void Start()
     {
         
     }

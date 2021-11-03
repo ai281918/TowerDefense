@@ -23,7 +23,8 @@ public class Missile : MonoBehaviour
             Move();
         }
         else{
-            Destroy(gameObject);
+            // Destroy(gameObject);
+            SurfaceToAirMissile.missilePool.Release(gameObject);
         }
     }
 
@@ -41,7 +42,8 @@ public class Missile : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D other) {
         if(other.transform == target){
             target.GetComponent<Attackable>().AddDamage(atk);
-            Destroy(gameObject);
+            // Destroy(gameObject);
+            SurfaceToAirMissile.missilePool.Release(gameObject);
         }
     }
 }

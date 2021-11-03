@@ -8,7 +8,9 @@ public class TerrainUnit : MonoBehaviour
     [SerializeField]
     public float _height = 0f;
     public SpriteRenderer spriteRenderer;
+    public GameObject child;
     public Vector2Int id;
+    public Vector2Int spriteID;
 
     public Sprite sprite{
         get{
@@ -29,8 +31,17 @@ public class TerrainUnit : MonoBehaviour
         }
     }
 
-    public void Initialize(Vector2Int id){
+    public void Initialize(Vector2Int id, Vector2Int spriteID){
         this.id = id;
+        this.spriteID = spriteID;
         initialPosition = transform.position;
+    }
+
+    public void RefreshChild(GameObject go){
+        DestroyImmediate(child);
+        GameObject c = Instantiate(go);
+        c.transform.SetParent(transform);
+        c.transform.localPosition = new Vector3(0, -0.35f, 0);
+        child = c;
     }
 }

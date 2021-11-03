@@ -11,6 +11,11 @@ public class EnemySpawner : MonoBehaviour
     public List<GameObject> enemyPrefabs = new List<GameObject>();
 
     float timeCount = 0f;
+
+    private void Awake() {
+        
+    }   
+
     // Start is called before the first frame update
     void Start()
     {
@@ -83,6 +88,7 @@ public class EnemySpawner : MonoBehaviour
 
         if(timeCount >= spawnTime){
             GameObject e = Instantiate(enemyPrefabs[Random.Range(0, enemyPrefabs.Count)], transform.position, Quaternion.identity);
+            // GameObject e = enemyPoolManager.Get(enemyPrefabs[Random.Range(0, enemyPrefabs.Count)].GetComponent<Enemy>().id, transform.position);
             e.GetComponent<Enemy>().Initialize(nodes);
             timeCount = 0f;
         }
