@@ -1,0 +1,62 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &7476441630595274891
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8168898736258992413}
+  - component: {fileID: 6823408959150769046}
+  m_Layer: 0
+  m_Name: WorldBuilder
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8168898736258992413
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7476441630595274891}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 11.478259, y: 5.089503, z: -51.11418}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6823408959150769046
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7476441630595274891}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 94f7929957b3d45429adb8ca28426160, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spriteScrollPos:
+  - {x: 0, y: 0}
+  - {x: 0, y: 0}
+  - {x: 0, y: 0}
+  - {x: 0, y: 0}
+  spriteFoldout: 00000000
+  _mapSize: {x: 0, y: 0}
+  mapSize_t: {x: 0, y: 0}
+  brushTool: 0
+  brushType: 0
+  spriteBrushSize: 1
+  spriteType: 0
+  spriteID: 0
+  heightBrushSize: 1
+  strength: 0.2
+  prefab: {fileID: 5143176353354713558, guid: bc74684b4bfbcbd4d9bec5e4c5f9401d, type: 3}
+  spriteManager: {fileID: 1672092527399412794, guid: b03953998631d2544a1ac900b9c5aefa, type: 3}

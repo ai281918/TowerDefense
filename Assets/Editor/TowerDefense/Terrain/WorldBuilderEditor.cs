@@ -24,7 +24,7 @@ public class WorldBuilderEditor : Editor
         worldBuilder.Initialize();
 
         // Map prefab
-        worldBuilder.prefab = EditorGUILayout.ObjectField("Map Prefab", worldBuilder.prefab, typeof(GameObject), true) as GameObject;
+        worldBuilder.prefab = EditorGUILayout.ObjectField("Terrain Unit Prefab", worldBuilder.prefab, typeof(GameObject), true) as GameObject;
 
         // Map size
         worldBuilder.mapSize_t = EditorGUILayout.Vector2IntField("Map Size", worldBuilder.mapSize_t);
