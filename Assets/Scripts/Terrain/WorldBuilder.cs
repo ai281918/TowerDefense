@@ -49,26 +49,6 @@ public class WorldBuilder : MonoBehaviour
     GameObject[,] map;
     public SpriteManager spriteManager;
 
-    private void Awake() {
-        OptimizeTerrainUnit();
-    }
-
-    public void OptimizeTerrainUnit(){
-        Reset();
-
-        for(int i=0;i<mapSize.x;++i){
-            for(int j=0;j<mapSize.y;++j){
-                Vector2Int id = map[i, j].GetComponent<TerrainUnit>().spriteID;
-                GameObject go = Instantiate(spriteManager.spritePacks[id.x].sprites[id.y]);
-                go.transform.position = map[i, j].transform.position;
-                go.transform.SetParent(transform);
-                go.GetComponent<TerrainUnit>().Initialize(map[i, j].GetComponent<TerrainUnit>().id, id);
-                Destroy(map[i, j]);
-                map[i, j] = go;
-            }
-        }
-    }
-
     public void Initialize(){
         if(spriteManager.spritePacks.Length == 0){
             spriteScrollPos = null;
@@ -108,7 +88,7 @@ public class WorldBuilder : MonoBehaviour
                         m[i, j] = Instantiate(prefab, new Vector3(i+0.5f, j*0.25f, j*0.25f), Quaternion.identity);
                         m[i, j].transform.SetParent(transform);
                     }
-                    m[i, j].GetComponent<TerrainUnit>().Initialize(new Vector2Int(i, j), Vector2Int.zero);
+                    m[i, j].GetComponent<TerrainUnit>().Initialize(new Vector2Int(i, j));
                 }
             }
         }
@@ -142,7 +122,7 @@ public class WorldBuilder : MonoBehaviour
 
     // Draw sprite of the nearest unit
     void DrawSpritePoint(Vector3 center){
-        GameObject newSprite = spriteManager.spritePacks[spriteType].sprites[spriteID];
+        Sprite newSprite = spriteManager.spritePacks[spriteType].sprites[spriteID];
 
         float minDis = 999f;
         Vector2Int minID = Vector2Int.zero;
@@ -158,20 +138,12 @@ public class WorldBuilder : MonoBehaviour
                 }
             }
         }
-        // map[minID.x, minID.y].GetComponent<TerrainUnit>().sprite = newSprite;
-        // map[minID.x, minID.y].GetComponent<TerrainUnit>().RefreshChild(newSprite);
-        // map[minID.x, minID.y].GetComponent<TerrainUnit>().spriteID = new Vector2Int(spriteType, spriteID);
-        GameObject go = Instantiate(newSprite);
-        go.transform.position = map[minID.x, minID.y].transform.position;
-        go.transform.SetParent(transform);
-        go.GetComponent<TerrainUnit>().Initialize(map[minID.x, minID.y].GetComponent<TerrainUnit>().id, new Vector2Int(spriteType, spriteID));
-        DestroyImmediate(map[minID.x, minID.y]);
-        map[minID.x, minID.y] = go;
+        map[minID.x, minID.y].GetComponent<TerrainUnit>().sprite = newSprite;
     }
 
     // Draw sprite of all units in range
     void DrawSpriteRange(Vector3 center){
-        GameObject newSprite = spriteManager.spritePacks[spriteType].sprites[spriteID];
+        Sprite newSprite = spriteManager.spritePacks[spriteType].sprites[spriteID];
 
         float radius = spriteBrushSize / 2f;
         Vector2Int ldID = new Vector2Int(Mathf.Max(0, Mathf.FloorToInt(center.x-radius)), Mathf.Max(0, Mathf.FloorToInt((center.y-radius)*2)*2));
@@ -180,9 +152,7 @@ public class WorldBuilder : MonoBehaviour
         for(int i=ldID.x;i<=ruID.x;++i){
             for(int j=ldID.y;j<=ruID.y;++j){
                 if(Vector2.Distance(center, map[i, j].transform.position) <= radius){
-                    // map[i, j].GetComponent<TerrainUnit>().sprite = newSprite;
-                    map[i, j].GetComponent<TerrainUnit>().RefreshChild(newSprite);
-                    map[i, j].GetComponent<TerrainUnit>().spriteID = new Vector2Int(spriteType, spriteID);
+                    map[i, j].GetComponent<TerrainUnit>().sprite = newSprite;
                 }
             }
         }

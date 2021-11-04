@@ -66,7 +66,7 @@ public class WorldBuilderEditor : Editor
                             // if(spriteManager.spritePacks[n].sprites[i] == null){
                             //     continue;
                             // }
-                            if(GUILayout.Button(spriteManager.spritePacks[n].sprites[i].GetComponent<TerrainUnit>().sprite.texture, GUILayout.Width(100))){
+                            if(GUILayout.Button(spriteManager.spritePacks[n].sprites[i].texture, GUILayout.Width(100))){
                                 worldBuilder.spriteType = n;
                                 worldBuilder.spriteID = i;
                             }

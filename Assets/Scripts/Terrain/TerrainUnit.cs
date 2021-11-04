@@ -10,7 +10,6 @@ public class TerrainUnit : MonoBehaviour
     public SpriteRenderer spriteRenderer;
     public GameObject child;
     public Vector2Int id;
-    public Vector2Int spriteID;
 
     public Sprite sprite{
         get{
@@ -31,9 +30,8 @@ public class TerrainUnit : MonoBehaviour
         }
     }
 
-    public void Initialize(Vector2Int id, Vector2Int spriteID){
+    public void Initialize(Vector2Int id){
         this.id = id;
-        this.spriteID = spriteID;
         initialPosition = transform.position;
     }
 
