@@ -50,6 +50,7 @@ public class WorldBuilder : MonoBehaviour
     public SpriteManager spriteManager;
 
     public void Initialize(){
+        transform.position = Vector3.zero;
         if(spriteManager.spritePacks.Length == 0){
             spriteScrollPos = null;
             spriteFoldout = null;

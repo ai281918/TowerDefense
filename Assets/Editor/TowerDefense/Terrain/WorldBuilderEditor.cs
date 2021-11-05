@@ -29,6 +29,7 @@ public class WorldBuilderEditor : Editor
         // Map size
         worldBuilder.mapSize_t = EditorGUILayout.Vector2IntField("Map Size", worldBuilder.mapSize_t);
         if(GUILayout.Button("Apply")){
+            worldBuilder.Reset();
             worldBuilder.mapSize = worldBuilder.mapSize_t;
         }
 
