@@ -94,10 +94,15 @@ public class WorldBuilderEditor : Editor
             worldBuilder.mapSize = worldBuilder.mapSize_t;
         }
 
+        if(GUILayout.Button("ReFresh")){
+            worldBuilder.ReFresh();
+        }
+
         if(GUILayout.Button("Clear")){
             worldBuilder.Clear();
             worldBuilder.mapSize = Vector2Int.zero;
         }
+
 
         if(GUI.changed && !Application.isPlaying){
             EditorUtility.SetDirty(worldBuilder);
