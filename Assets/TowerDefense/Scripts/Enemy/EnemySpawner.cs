@@ -12,12 +12,6 @@ public class EnemySpawner : MonoBehaviour
 
     float timeCount = 0f;
 
-    private void Awake() {
-        // for(int i=0;i<nodes.Count;++i){
-        //     nodes[i]  = new Vector3(nodes[i].x, nodes[i].y, nodes[i].y-1f);
-        // }
-    }   
-
     // Start is called before the first frame update
     void Start()
     {
@@ -90,7 +84,6 @@ public class EnemySpawner : MonoBehaviour
 
         if(timeCount >= spawnTime){
             GameObject e = Instantiate(enemyPrefabs[Random.Range(0, enemyPrefabs.Count)], transform.position, Quaternion.identity);
-            // GameObject e = enemyPoolManager.Get(enemyPrefabs[Random.Range(0, enemyPrefabs.Count)].GetComponent<Enemy>().id, transform.position);
             e.GetComponent<Enemy>().Initialize(nodes);
             timeCount = 0f;
         }

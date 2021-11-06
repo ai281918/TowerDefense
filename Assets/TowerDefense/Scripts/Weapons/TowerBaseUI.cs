@@ -45,7 +45,7 @@ public class TowerBaseUI : MonoBehaviour
         for(int i=0;i<towerBase.towerPrefabs.Length;++i){
             if(towerBase.towerPrefabs[i] != null){
                 buttons[i].SetActive(true);
-                buttons[i].GetComponent<Image>().sprite = towerBase.towerPrefabs[i].GetComponent<SpriteRenderer>().sprite;
+                buttons[i].GetComponent<Image>().sprite = towerBase.towerPrefabs[i].GetComponent<Tower>().spriteRenderer.sprite;
             }
             else{
                 buttons[i].SetActive(false);

@@ -28,7 +28,7 @@ public class TowerBase : MonoBehaviour
     }
 
     public void CreateTower(int id){
-        Instantiate(towerPrefabs[id], transform.position, Quaternion.identity);
+        Instantiate(towerPrefabs[id], transform.position + new Vector3(0f, 0f, 1f), Quaternion.identity);
         GetComponent<BoxCollider2D>().enabled = false;
     }
 }

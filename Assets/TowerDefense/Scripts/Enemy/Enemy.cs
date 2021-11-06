@@ -7,14 +7,13 @@ public class Enemy : Attackable
     int targetID = 0;
     public float speed = 5f;
     List<Vector3> nodes;
-    public int id = 0;
 
     public void Initialize(List<Vector3> nodes){
         this.nodes = nodes;
     }
 
     // Update is called once per frame
-    void Update()
+    protected void Update()
     {
         Move();
     }
