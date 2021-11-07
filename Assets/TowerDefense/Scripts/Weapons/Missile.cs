@@ -7,8 +7,8 @@ public class Missile : MonoBehaviour
     public float speed = 5f;
     public int atk = 1;
     Transform target;
-    Vector3 direction;
-    Vector3 smoothDirection;
+    Vector2 direction;
+    Vector2 smoothDirection;
     public GameObjectPool missilePool;
     SpriteRenderer spriteRenderer;
 
@@ -40,8 +40,9 @@ public class Missile : MonoBehaviour
     }
 
     void Move(){
-        direction = Vector3.SmoothDamp(direction, (target.position - transform.position).normalized, ref smoothDirection, 0.1f).normalized;
-        transform.position += direction * speed * Time.deltaTime;
+        direction = Vector2.SmoothDamp(direction, ((Vector2)(target.position - transform.position)).normalized, ref smoothDirection, 0.1f).normalized;
+        Vector2 moveDis = direction * speed * Time.deltaTime;
+        transform.position = new Vector3(transform.position.x + moveDis.x, transform.position.y + moveDis.y, transform.position.y + moveDis.y);
         transform.rotation = Quaternion.Euler(0, 0, Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg);
         spriteRenderer.flipY = (transform.rotation.eulerAngles.z > 90f && transform.rotation.z < 270f);
     }

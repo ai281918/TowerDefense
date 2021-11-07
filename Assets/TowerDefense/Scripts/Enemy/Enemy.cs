@@ -29,8 +29,8 @@ public class Enemy : Attackable
                 return;
             }
 
-            Vector3 dir = (nodes[targetID] - transform.position).normalized;
-            transform.position += dir * moveDis;
+            Vector2 dir = ((Vector2)(nodes[targetID] - transform.position)).normalized * moveDis;
+            transform.position = new Vector3(transform.position.x + dir.x, transform.position.y + dir.y, transform.position.y + dir.y);
             transform.rotation = dir.x > 0f ? Quaternion.Euler(0, 180, 0) : Quaternion.Euler(0, 0, 0);
         }
     }
